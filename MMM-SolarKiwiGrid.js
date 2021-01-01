@@ -13,7 +13,6 @@ Module.register("MMM-SolarKiwiGrid", {
 
   start: function () {
     Log.info("Starting module: " + this.name);
-
     this.titles = ["Add some values"];
     this.suffixes = ["%"];
     this.results = ["Loading"];
@@ -45,11 +44,7 @@ Module.register("MMM-SolarKiwiGrid", {
   //Handle node helper response
   socketNotificationReceived: function (notification, payload) {
     if (notification === "SOLAR_DATA") {
-      this.titles = payload.titles;
-      this.results = payload.results;
-      // PowerIn
-      // PowerOut
-      // PowerConsumedFromGrid
+      this.data = payload;
       this.loaded = true;
       this.updateDom(1000);
     }
@@ -92,14 +87,14 @@ Module.register("MMM-SolarKiwiGrid", {
       wrapper.appendChild(divider);
     }
 
-    for (var i = 0; i < this.results.length; i++) {
+    for (var i = 0; i < this.data.length; i++) {
       var row = document.createElement("tr");
 
       var titleTr = document.createElement("td");
       var dataTr = document.createElement("td");
 
-      titleTr.innerHTML = this.titles[i] + ":";
-      dataTr.innerHTML = this.results[i] + " " + this.suffixes[i];
+      titleTr.innerHTML = this.data[i].title + ":";
+      dataTr.innerHTML = this.data[i].value + " " + this.data[i].suffix;
 
       titleTr.className += " medium regular bright";
       dataTr.classname += " medium light normal";

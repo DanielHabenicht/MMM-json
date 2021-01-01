@@ -15,14 +15,15 @@ module.exports = NodeHelper.create({
       request(payload.config.url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var jsonData = JSON.parse(body);
-          var keys = Object.keys(payload.config.values);
-          values = keys.map((val) => {
-            return jp.query(jsonData, payload.config.values[val]);
-          });
-          self.sendSocketNotification("SOLAR_DATA", {
-            titles: keys,
-            results: values
-          });
+          self.sendSocketNotification(
+            "SOLAR_DATA",
+            payload.config.values.map((val) => {
+              return {
+                ...val,
+                value: jp.query(jsonData, val.query)[0]
+              };
+            })
+          );
         }
       });
     }
