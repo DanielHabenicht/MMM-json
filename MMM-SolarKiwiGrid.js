@@ -94,7 +94,10 @@ Module.register("MMM-SolarKiwiGrid", {
       var dataTr = document.createElement("td");
 
       titleTr.innerHTML = this.data[i].title + ":";
-      dataTr.innerHTML = this.data[i].value + " " + this.data[i].suffix;
+      dataTr.innerHTML =
+        this.data[i].value +
+        " " +
+        (this.data[i].suffix ? this.data[i].suffix : "");
 
       titleTr.className += " medium regular bright";
       dataTr.classname += " medium light normal";

@@ -20,7 +20,10 @@ module.exports = NodeHelper.create({
             payload.config.values.map((val) => {
               return {
                 ...val,
-                value: jp.query(jsonData, val.query)[0]
+                value:
+                  val.numberDevisor != undefined
+                    ? jp.query(jsonData, val.query)[0] / val.numberDevisor
+                    : jp.query(jsonData, val.query)[0]
               };
             })
           );
