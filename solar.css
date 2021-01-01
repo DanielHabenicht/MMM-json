@@ -1,9 +1,9 @@
 p {
   display: inline;
-  margin: 0px 0px 0px 15px;
 }
 hr {
   border-color: #666;
+  margin: 4px;
 }
 td {
   padding: 0px 5px 0px 0px;

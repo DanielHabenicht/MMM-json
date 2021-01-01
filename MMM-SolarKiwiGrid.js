@@ -8,32 +8,24 @@ Module.register("MMM-SolarKiwiGrid", {
   // Default module config.
   defaults: {
     url: "https://api.enphaseenergy.com/api/v2/systems/",
-    apiKey: "", //Enter API key
-    userId: "4d7a45774e6a41320a", //Sample user ID
-    systemId: "67", //Sample system
-    refInterval: 1000 * 60 * 5, //5 minutes
-    basicHeader: false
+    refreshInterval: 1000 * 60 * 5 //5 minutes
   },
 
   start: function () {
     Log.info("Starting module: " + this.name);
 
-    this.titles = ["Ladezustand:"];
+    this.titles = ["Add some values"];
     this.suffixes = ["%"];
     this.results = ["Loading"];
     this.loaded = false;
     this.getSolarData();
-
-    if (this.config.basicHeader) {
-      this.data.header = "Solar PV";
-    }
 
     var self = this;
     //Schedule updates
     setInterval(function () {
       self.getSolarData();
       self.updateDom();
-    }, this.config.refInterval);
+    }, this.config.refreshInterval);
   },
 
   //Import additional CSS Styles
@@ -53,9 +45,11 @@ Module.register("MMM-SolarKiwiGrid", {
   //Handle node helper response
   socketNotificationReceived: function (notification, payload) {
     if (notification === "SOLAR_DATA") {
-      this.results[0] = payload.result.items.find(
-        (e) => e.guid === "urn:solarwatt:myreserve:bc:a30b000a5526"
-      ).tagValues.StateOfCharge.value;
+      this.titles = payload.titles;
+      this.results = payload.results;
+      // PowerIn
+      // PowerOut
+      // PowerConsumedFromGrid
       this.loaded = true;
       this.updateDom(1000);
     }
@@ -77,15 +71,19 @@ Module.register("MMM-SolarKiwiGrid", {
 
     var tb = document.createElement("table");
 
-    if (!this.config.basicHeader) {
+    if (this.config.header) {
       var imgDiv = document.createElement("div");
-      var icon = document.createElement("i");
-      icon.className = "fas fa-sun";
 
       var sTitle = document.createElement("p");
-      sTitle.innerHTML = "Solar";
+      sTitle.innerHTML = this.config.header;
       sTitle.className += " thin";
-      imgDiv.appendChild(icon);
+
+      if (this.config.headerIcon) {
+        var icon = document.createElement("i");
+        icon.className = "fas " + this.config.headerIcon;
+        sTitle.style = "margin: 0px 0px 0px 15px;";
+        imgDiv.appendChild(icon);
+      }
       imgDiv.appendChild(sTitle);
 
       var divider = document.createElement("hr");
@@ -100,7 +98,7 @@ Module.register("MMM-SolarKiwiGrid", {
       var titleTr = document.createElement("td");
       var dataTr = document.createElement("td");
 
-      titleTr.innerHTML = this.titles[i];
+      titleTr.innerHTML = this.titles[i] + ":";
       dataTr.innerHTML = this.results[i] + " " + this.suffixes[i];
 
       titleTr.className += " medium regular bright";

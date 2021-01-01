@@ -1,4 +1,5 @@
 var request = require("request");
+var jp = require("jsonpath");
 var NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
@@ -14,7 +15,14 @@ module.exports = NodeHelper.create({
       request(payload.config.url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var jsonData = JSON.parse(body);
-          self.sendSocketNotification("SOLAR_DATA", jsonData);
+          var keys = Object.keys(payload.config.values);
+          values = keys.map((val) => {
+            return jp.query(jsonData, payload.config.values[val]);
+          });
+          self.sendSocketNotification("SOLAR_DATA", {
+            titles: keys,
+            results: values
+          });
         }
       });
     }
