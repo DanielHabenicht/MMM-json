@@ -100,7 +100,7 @@ Module.register("MMM-SolarKiwiGrid", {
         (this.data[i].suffix ? this.data[i].suffix : "");
 
       titleTr.className += " small regular bright";
-      dataTr.className += " small light normal";
+      dataTr.className += " small light bright";
 
       row.appendChild(titleTr);
       row.appendChild(dataTr);
