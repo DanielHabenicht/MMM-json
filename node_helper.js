@@ -22,7 +22,9 @@ module.exports = NodeHelper.create({
                 ...val,
                 value:
                   val.numberDevisor != undefined
-                    ? jp.query(jsonData, val.query)[0] / val.numberDevisor
+                    ? (
+                        jp.query(jsonData, val.query)[0] / val.numberDevisor
+                      ).toFixed(3)
                     : jp.query(jsonData, val.query)[0]
               };
             })
