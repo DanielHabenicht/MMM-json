@@ -71,7 +71,7 @@ Module.register("MMM-SolarKiwiGrid", {
 
       var sTitle = document.createElement("p");
       sTitle.innerHTML = this.config.header;
-      sTitle.className += " thin";
+      sTitle.className += "normal";
 
       if (this.config.headerIcon) {
         var icon = document.createElement("i");
@@ -99,8 +99,8 @@ Module.register("MMM-SolarKiwiGrid", {
         " " +
         (this.data[i].suffix ? this.data[i].suffix : "");
 
-      titleTr.className += " medium regular bright";
-      dataTr.classname += " medium light normal";
+      titleTr.className += " small regular bright";
+      dataTr.className += " small light normal";
 
       row.appendChild(titleTr);
       row.appendChild(dataTr);
