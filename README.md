@@ -4,7 +4,7 @@ A Module for [MagicMirror](https://github.com/MichMich/MagicMirror) designed to 
 
 ## Sample
 
-![alt text](https://github.com/danielhabenicht/MMM-json/blob/master/sample.png "Example")
+![alt text](https://github.com/DanielHabenicht/MMM-json/raw/main/sample.png "Example")
 
 ## Installation
 
