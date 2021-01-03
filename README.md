@@ -20,25 +20,45 @@ npm install
 **Basic Example:**
 
 ```jsonc
- {
+{
     module: 'MMM-json',
 	position: 'bottom_left',
 	config: {
 		url: "https://jsonplaceholder.typicode.com/users", // Path to your json api
 	}
- },
+},
 ```
 
 **Advanced Example:**
 
 ```jsonc
- {
-    module: 'MMM-json',
-	position: 'bottom_left',
-	config: {
-		url: "https://jsonplaceholder.typicode.com/users", // Path to your json api
-	}
- },
+{
+  module: "MMM-json",
+  position: "bottom_left",
+  config: {
+    url: "https://jsonplaceholder.typicode.com/users",
+    header: "JSON",
+    headerIcon: "fa-cube",
+    values: [
+      {
+        title: "Name",
+        query: "$[1].name"
+      },
+      {
+        title: "Coordinate 1",
+        query: "$[?(@.id==2)].address.geo.lat",
+        prefix: "LAT",
+        suffix: "°"
+      },
+      {
+        title: "Coordinate 2",
+        query: "$[?(@.name=='Ervin Howell')].address.geo.lat",
+        prefix: "LON",
+        suffix: "°"
+      }
+    ]
+  }
+},
 ```
 
 ## Configuration
@@ -67,14 +87,14 @@ npm install
 		</tr>
 		<tr>
 			<td><code>headerText</code></td>
-			<td>Wait interval between readings of temperature and humidity values
+			<td>The Text of your Header
 				<br><b>Type:</b> <code>string</code>
 				<br><b>Default:</b> <code></code> (none)
 			</td>
 		</tr>
 		<tr>
 			<td><code>headerIcon</code></td>
-			<td>Animation of changes
+			<td>The Icon for your Header
 				<br><b>Type:</b> <code>string</code> <a href="https://fontawesome.com/icons?d=gallery">any FontAwesome Icon</a>
 				<br><b>Default:</b> <code></code> (none)
 			</td>
@@ -108,7 +128,7 @@ npm install
 		</tr>
 		<tr>
 			<td><code>query</code></td>
-			<td>The <a href="https://restfulapi.net/json-jsonpath/">jsonpath</a> to the value of your jsonresponse you want to display. <a href="https://jsonpath.com/">Here you can test your expression</a>
+			<td>The <a href="https://restfulapi.net/json-jsonpath/">jsonpath</a> to the value of your json response you want to display. <a href="https://jsonpath.com/">Here you can test your expression</a>
 				<br><b>Type:</b> <code>string</code>
 				<br><b>Example:</b> <code></code>
 			</td>

@@ -15,9 +15,29 @@ module.exports = NodeHelper.create({
       request(payload.config.url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var jsonData = JSON.parse(body);
-          self.sendSocketNotification(
-            "MMM_JSON_GET_RESPONSE",
-            payload.config.values.map((val) => {
+
+          var responseObject = {
+            test: "test"
+          };
+
+          if (
+            payload.config.values == undefined ||
+            payload.config.values.length == 0
+          ) {
+            // Values are not defined fetch first properties
+            var firstObject = jsonData;
+            if (Array.isArray(jsonData)) {
+              firstObject = jsonData[0];
+            }
+            responseObject = Object.keys(firstObject).map((prop) => {
+              return {
+                title: prop,
+                value: firstObject[prop]
+              };
+            });
+          } else {
+            // Values are defined, get what the user wants
+            responseObject = payload.config.values.map((val) => {
               return {
                 ...val,
                 value:
@@ -27,8 +47,10 @@ module.exports = NodeHelper.create({
                       ).toFixed(3)
                     : jp.query(jsonData, val.query)[0]
               };
-            })
-          );
+            });
+          }
+
+          self.sendSocketNotification("MMM_JSON_GET_RESPONSE", responseObject);
         } else {
           self.sendSocketNotification("MMM_JSON_GET_RESPONSE", {
             error: true
