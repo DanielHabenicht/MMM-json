@@ -130,7 +130,7 @@ npm install
 			<td><code>query</code></td>
 			<td>The <a href="https://restfulapi.net/json-jsonpath/">jsonpath</a> to the value of your json response you want to display. <a href="https://jsonpath.com/">Here you can test your expression</a>
 				<br><b>Type:</b> <code>string</code>
-				<br><b>Example:</b> <code></code>
+				<br><b>Example:</b> <code>$[?(@.name=='Ervin Howell')].address.geo.lat</code>
 			</td>
 		</tr>
 		<tr>
