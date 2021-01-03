@@ -29,6 +29,11 @@ module.exports = NodeHelper.create({
               };
             })
           );
+        } else {
+          self.sendSocketNotification("MMM_JSON_GET_RESPONSE", {
+            error: true
+          });
+          console.error(error);
         }
       });
     }

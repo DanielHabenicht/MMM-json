@@ -13,9 +13,10 @@ Module.register("MMM-json", {
 
   start: function () {
     Log.info("Starting module: " + this.name);
-    this.titles = ["Add some values"];
-    this.suffixes = ["%"];
-    this.results = ["Loading"];
+    this.config = {
+      ...this.defaults,
+      ...this.config
+    };
     this.loaded = false;
     this.getData();
 
@@ -45,12 +46,14 @@ Module.register("MMM-json", {
   socketNotificationReceived: function (notification, payload) {
     if (notification === "MMM_JSON_GET_RESPONSE") {
       if (payload.error === true) {
-        this.error = true;
+        console.error(
+          "MMM-JSON: An Error occured while fetching your response. Please have a look at the server log."
+        );
+        this.loaded = false;
       } else {
-        this.error = false;
+        this.loaded = true;
         this.data = payload;
       }
-      this.loaded = true;
       this.updateDom(1000);
     }
   },
@@ -100,6 +103,8 @@ Module.register("MMM-json", {
 
       titleTr.innerHTML = this.data[i].title + ":";
       dataTr.innerHTML =
+        (this.data[i].prefix ? this.data[i].prefix : "") +
+        " " +
         this.data[i].value +
         " " +
         (this.data[i].suffix ? this.data[i].suffix : "");
