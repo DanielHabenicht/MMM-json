@@ -11,12 +11,12 @@ module.exports = NodeHelper.create({
     var self = this;
     console.log("Notification: " + notification + " Payload: " + payload);
 
-    if (notification === "GET_SOLAR") {
+    if (notification === "MMM_JSON_GET_REQUEST") {
       request(payload.config.url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var jsonData = JSON.parse(body);
           self.sendSocketNotification(
-            "SOLAR_DATA",
+            "MMM_JSON_GET_RESPONSE",
             payload.config.values.map((val) => {
               return {
                 ...val,

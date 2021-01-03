@@ -1,13 +1,13 @@
 /*
- * Magic Mirror module for displaying Enphase Solar data
- * By Thomas Krywitsky
+ * Magic Mirror module for displaying JSON values
+ * By Daniel Habenicht
  * MIT Licensed
  */
 
-Module.register("MMM-SolarKiwiGrid", {
+Module.register("MMM-json", {
   // Default module config.
   defaults: {
-    url: "https://api.enphaseenergy.com/api/v2/systems/",
+    url: "https://jsonplaceholder.typicode.com/users",
     refreshInterval: 1000 * 60 * 5 //5 minutes
   },
 
@@ -17,34 +17,39 @@ Module.register("MMM-SolarKiwiGrid", {
     this.suffixes = ["%"];
     this.results = ["Loading"];
     this.loaded = false;
-    this.getSolarData();
+    this.getData();
 
     var self = this;
     //Schedule updates
     setInterval(function () {
-      self.getSolarData();
+      self.getData();
       self.updateDom();
     }, this.config.refreshInterval);
   },
 
   //Import additional CSS Styles
   getStyles: function () {
-    return ["solar.css"];
+    return ["mmm-json.css"];
   },
 
-  //Contact node helper for solar data
-  getSolarData: function () {
-    Log.info("SolarApp: getting data");
+  //Contact node helper for data
+  getData: function () {
+    Log.info("MMM-json: getting data");
 
-    this.sendSocketNotification("GET_SOLAR", {
+    this.sendSocketNotification("MMM_JSON_GET_REQUEST", {
       config: this.config
     });
   },
 
   //Handle node helper response
   socketNotificationReceived: function (notification, payload) {
-    if (notification === "SOLAR_DATA") {
-      this.data = payload;
+    if (notification === "MMM_JSON_GET_RESPONSE") {
+      if (payload.error === true) {
+        this.error = true;
+      } else {
+        this.error = false;
+        this.data = payload;
+      }
       this.loaded = true;
       this.updateDom(1000);
     }

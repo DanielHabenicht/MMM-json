@@ -1,21 +1,21 @@
 {
-  "name": "mmm-solarkiwigrid",
+  "name": "mmm-json",
   "version": "1.0.0",
-  "description": "A Solar Module for MagicMirror2 designed to integrate with an Enphase Solar System",
-  "main": "MMM-SolarKiwiGrid.js",
+  "description": "A Module for MagicMirror to display the values of a json api",
+  "main": "MMM-json.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DanielHabenicht/MMM-SolarKiwiGrid.git"
+    "url": "git+https://github.com/DanielHabenicht/MMM-json.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DanielHabenicht/MMM-SolarKiwiGrid/issues"
+    "url": "https://github.com/DanielHabenicht/MMM-json/issues"
   },
-  "homepage": "https://github.com/DanielHabenicht/MMM-SolarKiwiGrid#readme",
+  "homepage": "https://github.com/DanielHabenicht/MMM-json#readme",
   "dependencies": {
     "jsonpath": "^1.0.2"
   }
