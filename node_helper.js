@@ -12,9 +12,16 @@ module.exports = NodeHelper.create({
     console.log("Notification: " + notification + " Payload:", payload);
 
     if (notification === "MMM_JSON_GET_REQUEST") {
-      request({url: payload.config.url, json: true}, function (error, response, jsonData) {
+      req_params = {
+        url: payload.config.url,
+        json: true,
+        ...payload.config.request
+      };
+      console.debug(self.name + " req_params:", req_params);
+      request(req_params, function (error, response, jsonData) {
         if (!error && response.statusCode == 200) {
           var responseObject;
+          console.debug(self.name + " got:", jsonData);
 
           if (
             payload.config.values == undefined ||
@@ -58,7 +65,9 @@ module.exports = NodeHelper.create({
             identifier: payload.identifier,
             error: true
           });
-          console.error(error);
+          console.error(self.name + " error:", error,
+            "statusCode:", response && response.statusCode,
+            "statusMessage:", response && response.statusMessage);
         }
       });
     }
