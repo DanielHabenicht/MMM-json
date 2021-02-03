@@ -1,5 +1,6 @@
 var request = require("request");
 var jp = require("jsonpath");
+var jq = require("node-jq");
 var NodeHelper = require("node_helper");
 
 module.exports = NodeHelper.create({
@@ -18,10 +19,20 @@ module.exports = NodeHelper.create({
         ...payload.config.request
       };
       console.debug(self.name + " req_params:", req_params);
-      request(req_params, function (error, response, jsonData) {
+      request(req_params, async function (error, response, jsonData) {
         if (!error && response.statusCode == 200) {
           var responseObject;
-          console.debug(self.name + " got:", jsonData);
+
+          if (
+            payload.config.jq !== undefined &&
+            payload.config.jq.length > 0
+          ) {
+            jsonData = await jq.run(
+              payload.config.jq,
+              jsonData,
+              { input: "json", output: "json" },
+            )
+          }
 
           if (
             payload.config.values == undefined ||
