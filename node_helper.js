@@ -9,7 +9,7 @@ module.exports = NodeHelper.create({
 
   socketNotificationReceived: function (notification, payload) {
     var self = this;
-    console.log("Notification: " + notification + " Payload: " + payload);
+    console.log("Notification: " + notification + " Payload:", payload);
 
     if (notification === "MMM_JSON_GET_REQUEST") {
       request(payload.config.url, function (error, response, body) {
