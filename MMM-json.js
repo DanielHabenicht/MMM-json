@@ -13,10 +13,6 @@ Module.register("MMM-json", {
 
   start: function () {
     Log.info("Starting module: " + this.name);
-    this.config = {
-      ...this.defaults,
-      ...this.config
-    };
     this.loaded = false;
     this.getData();
 
@@ -52,9 +48,19 @@ Module.register("MMM-json", {
         this.loaded = false;
       } else {
         this.loaded = true;
-        this.data = payload;
+        this.response = payload;
       }
       this.updateDom(1000);
+    }
+  },
+  // Override the Header generator
+  getHeader: function () {
+    // If an Icon should be displayed we need our own header
+    if (this.config.headerIcon) {
+      return "";
+    } else {
+      // TODO: Remove `this.config.header` in a subsequent version (major) as it was wrongly implemented in the config on first release #
+      return this.data.header ? this.data.header : this.config.header;
     }
   },
 
@@ -74,19 +80,20 @@ Module.register("MMM-json", {
 
     var tb = document.createElement("table");
 
-    if (this.config.header) {
+    // Display our own header if we want an icon
+    if (this.config.headerIcon) {
       var imgDiv = document.createElement("div");
 
       var sTitle = document.createElement("p");
-      sTitle.innerHTML = this.config.header;
+      sTitle.innerHTML = this.data.header
+        ? this.data.header
+        : this.config.header;
       sTitle.className += "normal";
 
-      if (this.config.headerIcon) {
-        var icon = document.createElement("i");
-        icon.className = "fas " + this.config.headerIcon;
-        sTitle.style = "margin: 0px 0px 0px 15px;";
-        imgDiv.appendChild(icon);
-      }
+      var icon = document.createElement("i");
+      icon.className = "fas " + this.config.headerIcon;
+      sTitle.style = "margin: 0px 0px 0px 15px;";
+      imgDiv.appendChild(icon);
       imgDiv.appendChild(sTitle);
 
       var divider = document.createElement("hr");
@@ -95,19 +102,19 @@ Module.register("MMM-json", {
       wrapper.appendChild(divider);
     }
 
-    for (var i = 0; i < this.data.length; i++) {
+    for (var i = 0; i < this.response.length; i++) {
       var row = document.createElement("tr");
 
       var titleTr = document.createElement("td");
       var dataTr = document.createElement("td");
 
-      titleTr.innerHTML = this.data[i].title + ":";
+      titleTr.innerHTML = this.response[i].title + ":";
       dataTr.innerHTML =
-        (this.data[i].prefix ? this.data[i].prefix : "") +
+        (this.response[i].prefix ? this.response[i].prefix : "") +
         " " +
-        this.data[i].value +
+        this.response[i].value +
         " " +
-        (this.data[i].suffix ? this.data[i].suffix : "");
+        (this.response[i].suffix ? this.response[i].suffix : "");
 
       titleTr.className += " small regular bright";
       dataTr.className += " small light bright";

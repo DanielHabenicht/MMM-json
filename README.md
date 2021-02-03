@@ -35,9 +35,9 @@ npm install
 {
   module: "MMM-json",
   position: "bottom_left",
+  header: "JSON",
   config: {
     url: "https://jsonplaceholder.typicode.com/users",
-    header: "JSON",
     headerIcon: "fa-cube",
     values: [
       {
@@ -86,10 +86,10 @@ npm install
 			</td>
 		</tr>
 		<tr>
-			<td><code>headerText</code></td>
-			<td>The Text of your Header
-				<br><b>Type:</b> <code>string</code>
-				<br><b>Default:</b> <code></code> (none)
+			<td><del><code>header</code></del></td>
+			<td>
+      Deprecated, use the built in <code>header</code>
+       in the config
 			</td>
 		</tr>
 		<tr>
