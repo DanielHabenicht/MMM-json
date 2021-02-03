@@ -14,9 +14,7 @@ module.exports = NodeHelper.create({
     if (notification === "MMM_JSON_GET_REQUEST") {
       request({url: payload.config.url, json: true}, function (error, response, jsonData) {
         if (!error && response.statusCode == 200) {
-          var responseObject = {
-            test: "test"
-          };
+          var responseObject;
 
           if (
             payload.config.values == undefined ||
@@ -27,30 +25,37 @@ module.exports = NodeHelper.create({
             if (Array.isArray(jsonData)) {
               firstObject = jsonData[0];
             }
-            responseObject = Object.keys(firstObject).map((prop) => {
-              return {
-                title: prop,
-                value: firstObject[prop]
-              };
-            });
+            responseObject = {
+              identifier: payload.identifier,
+              data: Object.keys(firstObject).map((prop) => {
+                return {
+                  title: prop,
+                  value: firstObject[prop]
+                };
+              })
+            };
           } else {
             // Values are defined, get what the user wants
-            responseObject = payload.config.values.map((val) => {
-              return {
-                ...val,
-                value:
-                  val.numberDevisor != undefined
-                    ? (
-                        jp.query(jsonData, val.query)[0] / val.numberDevisor
-                      ).toFixed(3)
-                    : jp.query(jsonData, val.query)[0]
-              };
-            });
+            responseObject = {
+              identifier: payload.identifier,
+              data: payload.config.values.map((val) => {
+                return {
+                  ...val,
+                  value:
+                    val.numberDevisor != undefined
+                      ? (
+                          jp.query(jsonData, val.query)[0] / val.numberDevisor
+                        ).toFixed(3)
+                      : jp.query(jsonData, val.query)[0]
+                };
+              })
+            };
           }
 
           self.sendSocketNotification("MMM_JSON_GET_RESPONSE", responseObject);
         } else {
           self.sendSocketNotification("MMM_JSON_GET_RESPONSE", {
+            identifier: payload.identifier,
             error: true
           });
           console.error(error);

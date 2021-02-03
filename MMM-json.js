@@ -34,13 +34,14 @@ Module.register("MMM-json", {
     Log.info("MMM-json: getting data");
 
     this.sendSocketNotification("MMM_JSON_GET_REQUEST", {
-      config: this.config
+      config: this.config,
+      identifier: this.identifier
     });
   },
 
   //Handle node helper response
   socketNotificationReceived: function (notification, payload) {
-    if (notification === "MMM_JSON_GET_RESPONSE") {
+    if (notification === "MMM_JSON_GET_RESPONSE" && payload.identifier == this.identifier) {
       if (payload.error === true) {
         console.error(
           "MMM-JSON: An Error occured while fetching your response. Please have a look at the server log."
@@ -48,7 +49,7 @@ Module.register("MMM-json", {
         this.loaded = false;
       } else {
         this.loaded = true;
-        this.response = payload;
+        this.response = payload.data;
       }
       this.updateDom(1000);
     }
