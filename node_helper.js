@@ -12,10 +12,8 @@ module.exports = NodeHelper.create({
     console.log("Notification: " + notification + " Payload:", payload);
 
     if (notification === "MMM_JSON_GET_REQUEST") {
-      request(payload.config.url, function (error, response, body) {
+      request({url: payload.config.url, json: true}, function (error, response, jsonData) {
         if (!error && response.statusCode == 200) {
-          var jsonData = JSON.parse(body);
-
           var responseObject = {
             test: "test"
           };
