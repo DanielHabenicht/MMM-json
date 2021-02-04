@@ -70,8 +70,27 @@ npm install
   header: "JSON example jq",
   config: {
     url: "https://jsonplaceholder.typicode.com/users",
-     headerIcon: "fa-cube",
-     jq: 'map({(.name): .address|[.street,.suite,.city]|join(", ")})|add'
+    headerIcon: "fa-cube",
+    jq: 'map({(.name): .address|[.street,.suite,.city]|join(", ")})|add'
+  }
+},
+```
+
+**Advanced Example POST:**
+
+```jsonc
+{
+  module: "MMM-json",
+  position: "bottom_left",
+  header: "JSON example POST",
+  config: {
+    url: "https://jsonplaceholder.typicode.com/posts",
+    request: {
+      method: "POST",
+      json: {
+        "search": "something"
+      }
+    }
   }
 },
 ```
@@ -115,8 +134,15 @@ npm install
       </td>
     </tr>
     <tr>
+      <td><code>request</code></td>
+      <td>Custom parameters for the <a href="https://www.npmjs.com/package/request">request</a> call. For example request method, request headers, request body.
+        <br><b>Type:</b> <code>object</code>
+        <br><b>Default:</b> <code>{}</code> No additional parameters.
+      </td>
+    </tr>
+    <tr>
       <td><code>jq</code></td>
-      <td>Custom [jq command](https://stedolan.github.io/jq/) to apply to the data
+      <td>Custom <a href="https://stedolan.github.io/jq/">jq command</a> to apply to the data. Used to convert JSON data.
         <br><b>Type:</b> <code>string</code>
         <br><b>Default:</b> <code>'.'</code> Use value as received.
       </td>
