@@ -53,7 +53,6 @@ module.exports = NodeHelper.create({
           var responseObject;
 
           jsonData = await do_jq(payload.config.jq, jsonData)
-          console.log("jsonData:", jsonData)
           if (
             payload.config.values == undefined ||
             payload.config.values.length == 0
