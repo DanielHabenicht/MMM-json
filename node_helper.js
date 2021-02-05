@@ -49,7 +49,7 @@ module.exports = NodeHelper.create({
       };
       console.debug(self.name + " req_params:", req_params);
       request(req_params, async function (error, response, jsonData) {
-        if (!error && response.statusCode == 200) {
+        if (!error && Math.floor(response.statusCode/100) === 2) {
           var responseObject;
 
           jsonData = await do_jq(payload.config.jq, jsonData)
