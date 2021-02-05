@@ -71,7 +71,7 @@ npm install
   config: {
     url: "https://jsonplaceholder.typicode.com/users",
     headerIcon: "fa-cube",
-    jq: 'map({(.name): .address|[.street,.suite,.city]|join(", ")})|add'
+    jq: 'keyBy("name") | mapValues(a => [a.address.street,a.address.suite,a.address.city].join(", "))'
   }
 },
 ```
@@ -142,7 +142,7 @@ npm install
     </tr>
     <tr>
       <td><code>jq</code></td>
-      <td>Custom <a href="https://stedolan.github.io/jq/">jq command</a> to apply to the data. Used to convert JSON data.
+      <td>Custom <a href="https://www.npmjs.com/package/jq.node">jq.node command</a> to apply to the data. Used to convert JSON data.
         <br><b>Type:</b> <code>string</code>
         <br><b>Default:</b> <code>'.'</code> Use value as received.
       </td>
