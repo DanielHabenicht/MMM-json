@@ -1,7 +1,36 @@
 var request = require("request");
 var jp = require("jsonpath");
-var jq = require("node-jq");
+const { jq } = require("jq.node");
 var NodeHelper = require("node_helper");
+
+function asPromise(context, callbackFunction, ...args) {
+  return new Promise((resolve, reject) => {
+    args.push((err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+    if (context) {
+      callbackFunction.call(context, ...args);
+    } else {
+      callbackFunction(...args);
+    }
+  });
+}
+
+async function do_jq(filter, data) {
+  if(filter) {
+    try {
+      data = await asPromise(null, jq, JSON.stringify(data), filter, {})
+      data = JSON.parse(data)
+    } catch(e) {
+      console.error("Error handling jq.node filter '"+filter+"':", e)
+    }
+  }
+  return data
+}
 
 module.exports = NodeHelper.create({
   start: function () {
@@ -23,17 +52,8 @@ module.exports = NodeHelper.create({
         if (!error && response.statusCode == 200) {
           var responseObject;
 
-          if (
-            payload.config.jq !== undefined &&
-            payload.config.jq.length > 0
-          ) {
-            jsonData = await jq.run(
-              payload.config.jq,
-              jsonData,
-              { input: "json", output: "json" },
-            )
-          }
-
+          jsonData = await do_jq(payload.config.jq, jsonData)
+          console.log("jsonData:", jsonData)
           if (
             payload.config.values == undefined ||
             payload.config.values.length == 0

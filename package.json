@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/DanielHabenicht/MMM-json#readme",
   "dependencies": {
-    "jsonpath": "^1.0.2",
-    "node-jq": "^1.12.0"
+    "jq.node": "^2.2.0",
+    "jsonpath": "^1.0.2"
   }
 }
