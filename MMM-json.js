@@ -6,43 +6,49 @@
 
 Module.register("MMM-json", {
   // Default module config.
-  defaults : {
-    url : "https://jsonplaceholder.typicode.com/users",
-    refreshInterval : 1000 * 60 * 5 // 5 minutes
+  defaults: {
+    url: "https://jsonplaceholder.typicode.com/users",
+    refreshInterval: 1000 * 60 * 5 // 5 minutes
   },
 
-  start : function() {
+  start: function () {
     Log.info("Starting module: " + this.name);
     this.loaded = false;
     this.getData();
 
     var self = this;
     // Schedule updates
-    setInterval(function() {
+    setInterval(function () {
       self.getData();
       self.updateDom();
     }, this.config.refreshInterval);
   },
 
   // Import additional CSS Styles
-  getStyles : function() { return [ "mmm-json.css" ]; },
+  getStyles: function () {
+    return ["mmm-json.css"];
+  },
 
   // Contact node helper for data
-  getData : function() {
+  getData: function () {
     Log.info("MMM-json: getting data");
 
-    this.sendSocketNotification(
-        "MMM_JSON_GET_REQUEST",
-        {config : this.config, identifier : this.identifier});
+    this.sendSocketNotification("MMM_JSON_GET_REQUEST", {
+      config: this.config,
+      identifier: this.identifier
+    });
   },
 
   // Handle node helper response
-  socketNotificationReceived : function(notification, payload) {
-    if (notification === "MMM_JSON_GET_RESPONSE" &&
-        payload.identifier == this.identifier) {
+  socketNotificationReceived: function (notification, payload) {
+    if (
+      notification === "MMM_JSON_GET_RESPONSE" &&
+      payload.identifier == this.identifier
+    ) {
       if (payload.error === true) {
         console.error(
-            "MMM-JSON: An Error occured while fetching your response. Please have a look at the server log.");
+          "MMM-JSON: An Error occured while fetching your response. Please have a look at the server log."
+        );
         this.loaded = false;
       } else {
         this.loaded = true;
@@ -52,7 +58,7 @@ Module.register("MMM-json", {
     }
   },
   // Override the Header generator
-  getHeader : function() {
+  getHeader: function () {
     // If an Icon should be displayed we need our own header
     if (this.config.headerIcon) {
       return "";
@@ -64,7 +70,7 @@ Module.register("MMM-json", {
   },
 
   // Override dom generator.
-  getDom : function() {
+  getDom: function () {
     var wrapper = document.createElement("div");
     if (this.config.url === "") {
       wrapper.innerHTML = "Missing configuration.";
@@ -84,8 +90,9 @@ Module.register("MMM-json", {
       var imgDiv = document.createElement("div");
 
       var sTitle = document.createElement("p");
-      sTitle.innerHTML =
-          this.data.header ? this.data.header : this.config.header;
+      sTitle.innerHTML = this.data.header
+        ? this.data.header
+        : this.config.header;
       sTitle.className += "normal";
 
       var icon = document.createElement("i");
@@ -108,9 +115,11 @@ Module.register("MMM-json", {
 
       titleTr.innerHTML = this.response[i].title + ":";
       dataTr.innerHTML =
-          (this.response[i].prefix ? this.response[i].prefix : "") + " " +
-          this.response[i].value + " " +
-          (this.response[i].suffix ? this.response[i].suffix : "");
+        (this.response[i].prefix ? this.response[i].prefix : "") +
+        " " +
+        this.response[i].value +
+        " " +
+        (this.response[i].suffix ? this.response[i].suffix : "");
 
       titleTr.className += " small regular bright";
       dataTr.className += " small light bright";
