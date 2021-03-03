@@ -21,15 +21,15 @@ function asPromise(context, callbackFunction, ...args) {
 }
 
 async function do_jq(filter, data) {
-  if(filter) {
+  if (filter) {
     try {
-      data = await asPromise(null, jq, JSON.stringify(data), filter, {})
-      data = JSON.parse(data)
-    } catch(e) {
-      console.error("Error handling jq.node filter '"+filter+"':", e)
+      data = await asPromise(null, jq, JSON.stringify(data), filter, {});
+      data = JSON.parse(data);
+    } catch (e) {
+      console.error("Error handling jq.node filter '" + filter + "':", e);
     }
   }
-  return data
+  return data;
 }
 
 module.exports = NodeHelper.create({
@@ -49,10 +49,10 @@ module.exports = NodeHelper.create({
       };
       console.debug(self.name + " req_params:", req_params);
       request(req_params, async function (error, response, jsonData) {
-        if (!error && Math.floor(response.statusCode/100) === 2) {
+        if (!error && Math.floor(response.statusCode / 100) === 2) {
           var responseObject;
 
-          jsonData = await do_jq(payload.config.jq, jsonData)
+          jsonData = await do_jq(payload.config.jq, jsonData);
           if (
             payload.config.values == undefined ||
             payload.config.values.length == 0
@@ -65,10 +65,7 @@ module.exports = NodeHelper.create({
             responseObject = {
               identifier: payload.identifier,
               data: Object.keys(firstObject).map((prop) => {
-                return {
-                  title: prop,
-                  value: firstObject[prop]
-                };
+                return { title: prop, value: firstObject[prop] };
               })
             };
           } else {
@@ -95,9 +92,14 @@ module.exports = NodeHelper.create({
             identifier: payload.identifier,
             error: true
           });
-          console.error(self.name + " error:", error,
-            "statusCode:", response && response.statusCode,
-            "statusMessage:", response && response.statusMessage);
+          console.error(
+            self.name + " error:",
+            error,
+            "statusCode:",
+            response && response.statusCode,
+            "statusMessage:",
+            response && response.statusMessage
+          );
         }
       });
     }

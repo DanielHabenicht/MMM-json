@@ -1,6 +1,7 @@
 # MMM-json
 
-A Module for [MagicMirror](https://github.com/MichMich/MagicMirror) designed to display parts or the whole JSON response from an api.
+A Module for [MagicMirror](https://github.com/MichMich/MagicMirror) designed to
+display parts or the whole JSON response from an api.
 
 ## Sample
 
@@ -200,4 +201,5 @@ npm install
 
 # Attribution
 
-Attribution of some basic work and inspiration goes to https://github.com/tkrywit/MMM-Solar.
+Attribution of some basic work and inspiration goes to
+https://github.com/tkrywit/MMM-Solar.
