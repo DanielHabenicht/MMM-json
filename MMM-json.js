@@ -8,7 +8,7 @@ Module.register("MMM-json", {
   // Default module config.
   defaults: {
     url: "https://jsonplaceholder.typicode.com/users",
-    refreshInterval: 1000 * 60 * 5 //5 minutes
+    refreshInterval: 1000 * 60 * 5 // 5 minutes
   },
 
   start: function () {
@@ -17,30 +17,34 @@ Module.register("MMM-json", {
     this.getData();
 
     var self = this;
-    //Schedule updates
+    // Schedule updates
     setInterval(function () {
       self.getData();
       self.updateDom();
     }, this.config.refreshInterval);
   },
 
-  //Import additional CSS Styles
+  // Import additional CSS Styles
   getStyles: function () {
     return ["mmm-json.css"];
   },
 
-  //Contact node helper for data
+  // Contact node helper for data
   getData: function () {
     Log.info("MMM-json: getting data");
 
     this.sendSocketNotification("MMM_JSON_GET_REQUEST", {
-      config: this.config
+      config: this.config,
+      identifier: this.identifier
     });
   },
 
-  //Handle node helper response
+  // Handle node helper response
   socketNotificationReceived: function (notification, payload) {
-    if (notification === "MMM_JSON_GET_RESPONSE") {
+    if (
+      notification === "MMM_JSON_GET_RESPONSE" &&
+      payload.identifier == this.identifier
+    ) {
       if (payload.error === true) {
         console.error(
           "MMM-JSON: An Error occured while fetching your response. Please have a look at the server log."
@@ -48,7 +52,7 @@ Module.register("MMM-json", {
         this.loaded = false;
       } else {
         this.loaded = true;
-        this.response = payload;
+        this.response = payload.data;
       }
       this.updateDom(1000);
     }
@@ -59,7 +63,8 @@ Module.register("MMM-json", {
     if (this.config.headerIcon) {
       return "";
     } else {
-      // TODO: Remove `this.config.header` in a subsequent version (major) as it was wrongly implemented in the config on first release #
+      // TODO: Remove `this.config.header` in a subsequent version (major) as it
+      // was wrongly implemented in the config on first release #
       return this.data.header ? this.data.header : this.config.header;
     }
   },
@@ -72,7 +77,7 @@ Module.register("MMM-json", {
       return wrapper;
     }
 
-    //Display loading while waiting for API response
+    // Display loading while waiting for API response
     if (!this.loaded) {
       wrapper.innerHTML = "Loading...";
       return wrapper;
