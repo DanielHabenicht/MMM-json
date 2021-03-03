@@ -63,9 +63,7 @@ Module.register("MMM-json", {
     if (this.config.headerIcon) {
       return "";
     } else {
-      // TODO: Remove `this.config.header` in a subsequent version (major) as it
-      // was wrongly implemented in the config on first release #
-      return this.data.header ? this.data.header : this.config.header;
+      return this.data.header || "";
     }
   },
 
@@ -90,9 +88,7 @@ Module.register("MMM-json", {
       var imgDiv = document.createElement("div");
 
       var sTitle = document.createElement("p");
-      sTitle.innerHTML = this.data.header
-        ? this.data.header
-        : this.config.header;
+      sTitle.innerHTML = this.data.header || "";
       sTitle.className += "normal";
 
       var icon = document.createElement("i");

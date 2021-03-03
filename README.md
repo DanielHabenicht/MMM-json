@@ -18,6 +18,8 @@ npm install
 
 2. Create an entry in 'config/config.js' with your url and any config options.
 
+### Sample
+
 **Basic Example:**
 
 ```jsonc
@@ -30,7 +32,9 @@ npm install
 },
 ```
 
-**Advanced Example JSONPath:**
+#### JSONPath
+
+**Advanced Example:**
 
 ```jsonc
 {
@@ -62,7 +66,9 @@ npm install
 },
 ```
 
-**Advanced Example jq:**
+#### JQ
+
+**Advanced Example:**
 
 ```jsonc
 {
@@ -118,13 +124,6 @@ npm install
       <td>The interval with which the url is queried and your values are updated.
         <br><b>Type:</b> <code>int</code> (seconds)
         <br><b>Default:</b> <code>300000</code> => 5 minutes
-      </td>
-    </tr>
-    <tr>
-      <td><del><code>header</code></del></td>
-      <td>
-      Deprecated, use the built in <code>header</code>
-       in the config
       </td>
     </tr>
     <tr>
