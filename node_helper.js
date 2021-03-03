@@ -57,15 +57,11 @@ module.exports = NodeHelper.create({
             payload.config.values == undefined ||
             payload.config.values.length == 0
           ) {
-            // Values are not defined fetch first properties
-            var firstObject = jsonData;
-            if (Array.isArray(jsonData)) {
-              firstObject = jsonData[0];
-            }
+            // Values are not defined return whole object properties
             responseObject = {
               identifier: payload.identifier,
-              data: Object.keys(firstObject).map((prop) => {
-                return { title: prop, value: firstObject[prop] };
+              data: Object.keys(jsonData).map((prop) => {
+                return { title: prop, value: jsonData[prop] };
               })
             };
           } else {
