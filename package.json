@@ -4,6 +4,7 @@
   "description": "A Module for MagicMirror to display the values of a json api",
   "main": "MMM-json.js",
   "scripts": {
+    "release": "semantic-release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +18,12 @@
   },
   "homepage": "https://github.com/DanielHabenicht/MMM-json#readme",
   "dependencies": {
-    "jq.node": "^2.2.0",
+    "jq.node": "^2.3.0",
     "jsonpath": "^1.0.2"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "semantic-release": "^17.4.1"
   }
 }
