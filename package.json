@@ -19,7 +19,8 @@
   "homepage": "https://github.com/DanielHabenicht/MMM-json#readme",
   "dependencies": {
     "jq.node": "^2.3.0",
-    "jsonpath": "^1.0.2"
+    "jsonpath": "^1.0.2",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",
