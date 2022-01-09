@@ -56,11 +56,11 @@ module.exports = NodeHelper.create({
               payload.config.values == undefined ||
               payload.config.values.length == 0
             ) {
-              // Values are not defined return whole object properties
+              // Values are not defined return all object properties
               responseObject = {
                 identifier: payload.identifier,
                 data: Object.keys(jsonData).map((prop) => {
-                  return { title: prop, value: jsonData[prop] };
+                  return { title: prop, value: [jsonData[prop]] };
                 })
               };
             } else {
@@ -70,12 +70,16 @@ module.exports = NodeHelper.create({
                 data: payload.config.values.map((val) => {
                   return {
                     ...val,
-                    value:
-                      val.numberDevisor != undefined
+                    value: (Array.isArray(val.query)
+                      ? val.query
+                      : [val.query]
+                    ).map((query) => {
+                      return val.numberDevisor != undefined
                         ? (
-                            jp.query(jsonData, val.query)[0] / val.numberDevisor
+                            jp.query(jsonData, query)[0] / val.numberDevisor
                           ).toFixed(3)
-                        : jp.query(jsonData, val.query)[0]
+                        : jp.query(jsonData, query)[0];
+                    })
                   };
                 })
               };

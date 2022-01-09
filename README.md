@@ -3,7 +3,7 @@
 A Module for [MagicMirror](https://github.com/MichMich/MagicMirror) designed to
 display parts or the whole JSON response from an api.
 
-## Sample
+## Preview
 
 ![alt text](https://github.com/DanielHabenicht/MMM-json/raw/main/sample.png "Example")
 
@@ -18,7 +18,7 @@ npm install
 
 2. Create an entry in 'config/config.js' with your url and any config options.
 
-### Sample
+### Example
 
 **Basic Example:**
 
@@ -38,9 +38,45 @@ npm install
 },
 ```
 
+**Fetch-Options Example**
+
+```jsonc
+{
+  module: "MMM-json",
+  position: "bottom_left",
+  header: "JSON example POST",
+  config: {
+    url: "https://jsonplaceholder.typicode.com/posts",
+    fetchOptions: {
+      method: "POST",
+      body: {
+        "search": "something"
+      }
+    }
+  }
+},
+```
+
+#### JQ
+
+You can preprocess the json response with [jq-node](https://www.npmjs.com/package/jq.node):
+
+```jsonc
+{
+  module: "MMM-json",
+  position: "bottom_left",
+  header: "JSON example jq",
+  config: {
+    url: "https://jsonplaceholder.typicode.com/users",
+    headerIcon: "fa-cube",
+    jq: 'keyBy("name") | mapValues(a => [a.address.street,a.address.suite,a.address.city].join(", "))'
+  }
+},
+```
+
 #### JSONPath
 
-**Advanced Example:**
+With [JSONPath](https://restfulapi.net/json-jsonpath/) you can select the values you want to display:
 
 ```jsonc
 {
@@ -72,24 +108,7 @@ npm install
 },
 ```
 
-#### JQ
-
-**Advanced Example:**
-
-```jsonc
-{
-  module: "MMM-json",
-  position: "bottom_left",
-  header: "JSON example jq",
-  config: {
-    url: "https://jsonplaceholder.typicode.com/users",
-    headerIcon: "fa-cube",
-    jq: 'keyBy("name") | mapValues(a => [a.address.street,a.address.suite,a.address.city].join(", "))'
-  }
-},
-```
-
-**Advanced Example POST:**
+**Multi Value Example**
 
 ```jsonc
 {
@@ -97,13 +116,19 @@ npm install
   position: "bottom_left",
   header: "JSON example POST",
   config: {
-    url: "https://jsonplaceholder.typicode.com/posts",
-    fetchOptions: {
-      method: "POST",
-      body: {
-        "search": "something"
+    url: "https://jsonplaceholder.typicode.com/users/1",
+    values: [
+      {
+        title: "Address",
+        query: ["$.address.zipcode", "$.address.city", "$.address.street"],
+        suffix: ["", ","]
+      },
+      {
+        title: "Geo",
+        query: ["$.address.geo.lat", "$.address.geo.lng"],
+        suffix: ["LAT", "LNG"]
       }
-    }
+    ],
   }
 },
 ```

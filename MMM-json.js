@@ -99,7 +99,7 @@ Module.register("MMM-json", {
       imgDiv.appendChild(sTitle);
 
       var divider = document.createElement("hr");
-      divider.className += " dimmed";
+      divider.className += "dimmed";
       wrapper.appendChild(imgDiv);
       wrapper.appendChild(divider);
     }
@@ -108,32 +108,59 @@ Module.register("MMM-json", {
       var row = document.createElement("tr");
 
       var titleTr = document.createElement("td");
-      var dataTr = document.createElement("td");
-
-      titleTr.innerHTML = this.response[i].title + ":";
-      dataTr.innerHTML =
-        (this.response[i].prefix ? this.response[i].prefix + " " : "") +
-        this.response[i].value +
-        (this.response[i].suffix ? " " + this.response[i].suffix : "");
-
       titleTr.className = "small regular bright";
-      dataTr.className = "small light bright";
+      titleTr.innerHTML = this.response[i].title + ":";
+      row.appendChild(titleTr);
 
-      if (this.config.styleRules != null && this.config.styleRules.length > 0) {
-        for (var j = 0; j < this.config.styleRules.length; j++) {
-          if (this.config.styleRules[j].match(this.response[i].value)) {
-            if (this.config.styleRules[j].style != null) {
-              dataTr.style = this.config.styleRules[j].style;
-            }
-            if (this.config.styleRules[j].class != null) {
-              dataTr.className += " " + this.config.styleRules[j].class;
+      for (var j = 0; j < this.response[i].value.length; j++) {
+        var dataTr = document.createElement("td");
+
+        // Add Prefix
+        if (
+          this.response[i].prefix != null &&
+          (!Array.isArray(this.response[i].prefix) ||
+            this.response[i].prefix[j])
+        ) {
+          dataTr.innerHTML += Array.isArray(this.response[i].prefix)
+            ? this.response[i].prefix[j]
+            : this.response[i].prefix;
+          dataTr.innerHTML += " ";
+        }
+
+        // Add Value
+        dataTr.innerHTML += this.response[i].value[j];
+
+        // Add Suffix
+        if (
+          this.response[i].suffix != null &&
+          (!Array.isArray(this.response[i].suffix) ||
+            this.response[i].suffix[j])
+        ) {
+          dataTr.innerHTML += " ";
+          dataTr.innerHTML += Array.isArray(this.response[i].suffix)
+            ? this.response[i].suffix[j]
+            : this.response[i].suffix;
+        }
+
+        // Add Matching Styles
+        if (
+          this.config.styleRules != null &&
+          this.config.styleRules.length > 0
+        ) {
+          for (var k = 0; k < this.config.styleRules.length; k++) {
+            if (this.config.styleRules[k].match(this.response[i].value[j])) {
+              if (this.config.styleRules[k].style != null) {
+                dataTr.style = this.config.styleRules[k].style;
+              }
+              if (this.config.styleRules[k].class != null) {
+                dataTr.className += " " + this.config.styleRules[k].class;
+              }
             }
           }
         }
+        dataTr.className = "small light bright";
+        row.appendChild(dataTr);
       }
-
-      row.appendChild(titleTr);
-      row.appendChild(dataTr);
 
       tb.appendChild(row);
     }

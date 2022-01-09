@@ -7,7 +7,6 @@ let identifier = "test";
 describe("Functions module MMM-json", function () {
   before(function () {
     Module = {};
-    config = {};
     Module.definitions = {};
     Module.register = function (name, moduleDefinition) {
       Module.definitions[name] = moduleDefinition;
@@ -75,9 +74,7 @@ describe("Functions module MMM-json", function () {
         );
       });
       it(`loading`, function () {
-        Module.definitions[modulename].config = {
-          url: "https://localhost"
-        };
+        Module.definitions[modulename].config.url = "https://localhost";
         expect(Module.definitions[modulename].getDom().outerHTML).to.equal(
           "<div>Loading...</div>"
         );
@@ -85,16 +82,14 @@ describe("Functions module MMM-json", function () {
     });
     describe("data", function () {
       before(function () {
-        Module.definitions[modulename].config = {
-          url: "https://localhost"
-        };
+        Module.definitions[modulename].config.url = "https://localhost";
       });
       it(`normal`, function () {
         Module.definitions[modulename].socketNotificationReceived(
           "MMM_JSON_RESPONSE",
           {
             identifier: identifier,
-            data: [{ title: "test-title", value: "test-value" }],
+            data: [{ title: "test-title", value: ["test-value"] }],
             error: false
           }
         );
@@ -103,13 +98,13 @@ describe("Functions module MMM-json", function () {
           '<div><table><tr><td class="small regular bright">test-title:</td><td class="small light bright">test-value</td></tr></table></div>'
         );
       });
-      it(`advanced - prefix`, function () {
+      it(`basic - prefix`, function () {
         Module.definitions[modulename].socketNotificationReceived(
           "MMM_JSON_RESPONSE",
           {
             identifier: identifier,
             data: [
-              { title: "test-title", value: "test-value", prefix: "PREFIX" }
+              { title: "test-title", value: ["test-value"], prefix: "PREFIX" }
             ],
             error: false
           }
@@ -118,13 +113,13 @@ describe("Functions module MMM-json", function () {
           '<div><table><tr><td class="small regular bright">test-title:</td><td class="small light bright">PREFIX test-value</td></tr></table></div>'
         );
       });
-      it(`advanced - suffix`, function () {
+      it(`basic - suffix`, function () {
         Module.definitions[modulename].socketNotificationReceived(
           "MMM_JSON_RESPONSE",
           {
             identifier: identifier,
             data: [
-              { title: "test-title", value: "test-value", suffix: "SUFFIX" }
+              { title: "test-title", value: ["test-value"], suffix: "SUFFIX" }
             ],
             error: false
           }
@@ -134,7 +129,7 @@ describe("Functions module MMM-json", function () {
         );
       });
 
-      it(`advanced - both`, function () {
+      it(`basic - both`, function () {
         Module.definitions[modulename].socketNotificationReceived(
           "MMM_JSON_RESPONSE",
           {
@@ -142,7 +137,7 @@ describe("Functions module MMM-json", function () {
             data: [
               {
                 title: "test-title",
-                value: "test-value",
+                value: ["test-value"],
                 prefix: "PREFIX",
                 suffix: "SUFFIX"
               }
@@ -152,6 +147,45 @@ describe("Functions module MMM-json", function () {
         );
         expect(Module.definitions[modulename].getDom().outerHTML).to.equal(
           '<div><table><tr><td class="small regular bright">test-title:</td><td class="small light bright">PREFIX test-value SUFFIX</td></tr></table></div>'
+        );
+      });
+
+      it(`basic - all`, function () {
+        Module.definitions[modulename].socketNotificationReceived(
+          "MMM_JSON_RESPONSE",
+          {
+            identifier: identifier,
+            data: [
+              {
+                title: "title1",
+                value: ["value1"],
+                prefix: "PREFIX",
+                suffix: "SUFFIX"
+              },
+              {
+                title: "title2",
+                value: ["value2"],
+                prefix: ["PREFIX"],
+                suffix: ["SUFFIX"]
+              },
+              {
+                title: "title3",
+                value: ["value3a", "value3b"],
+                prefix: ["PREFIXa", "PREFIXb"],
+                suffix: ["SUFFIXa", "SUFFIXb"]
+              },
+              {
+                title: "title4",
+                value: ["value4a", "value4b"],
+                prefix: "PREFIX",
+                suffix: "SUFFIX"
+              }
+            ],
+            error: false
+          }
+        );
+        expect(Module.definitions[modulename].getDom().outerHTML).to.equal(
+          '<div><table><tr><td class="small regular bright">title1:</td><td class="small light bright">PREFIX value1 SUFFIX</td></tr><tr><td class="small regular bright">title2:</td><td class="small light bright">PREFIX value2 SUFFIX</td></tr><tr><td class="small regular bright">title3:</td><td class="small light bright">PREFIXa value3a SUFFIXa</td><td class="small light bright">PREFIXb value3b SUFFIXb</td></tr><tr><td class="small regular bright">title4:</td><td class="small light bright">PREFIX value4a SUFFIX</td><td class="small light bright">PREFIX value4b SUFFIX</td></tr></table></div>'
         );
       });
     });
