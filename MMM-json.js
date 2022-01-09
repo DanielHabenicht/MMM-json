@@ -8,7 +8,8 @@ Module.register("MMM-json", {
   // Default module config.
   defaults: {
     url: "https://jsonplaceholder.typicode.com/users",
-    refreshInterval: 1000 * 60 * 5 // 5 minutes
+    refreshInterval: 1000 * 60 * 5, // 5 minutes
+    styleRules: []
   },
 
   start: function () {
@@ -70,7 +71,7 @@ Module.register("MMM-json", {
   // Override dom generator.
   getDom: function () {
     var wrapper = document.createElement("div");
-    if (this.config.url === "") {
+    if (this.config.url == null || this.config.url === "") {
       wrapper.innerHTML = "Missing configuration.";
       return wrapper;
     }
@@ -111,14 +112,25 @@ Module.register("MMM-json", {
 
       titleTr.innerHTML = this.response[i].title + ":";
       dataTr.innerHTML =
-        (this.response[i].prefix ? this.response[i].prefix : "") +
-        " " +
+        (this.response[i].prefix ? this.response[i].prefix + " " : "") +
         this.response[i].value +
-        " " +
-        (this.response[i].suffix ? this.response[i].suffix : "");
+        (this.response[i].suffix ? " " + this.response[i].suffix : "");
 
-      titleTr.className += " small regular bright";
-      dataTr.className += " small light bright";
+      titleTr.className = "small regular bright";
+      dataTr.className = "small light bright";
+
+      if (this.config.styleRules != null && this.config.styleRules.length > 0) {
+        for (var j = 0; j < this.config.styleRules.length; j++) {
+          if (this.config.styleRules[j].match(this.response[i].value)) {
+            if (this.config.styleRules[j].style != null) {
+              dataTr.style = this.config.styleRules[j].style;
+            }
+            if (this.config.styleRules[j].class != null) {
+              dataTr.className += " " + this.config.styleRules[j].class;
+            }
+          }
+        }
+      }
 
       row.appendChild(titleTr);
       row.appendChild(dataTr);
