@@ -201,4 +201,4 @@ npm install
 # Attribution
 
 Attribution of some basic work and inspiration goes to
-https://github.com/tkrywit/MMM-Solar.
+https://github.com/qistoph/mmm-json.
