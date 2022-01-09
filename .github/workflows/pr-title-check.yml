@@ -1,0 +1,63 @@
+name: Check PR title
+on:
+  pull_request_target:
+    branches: [master]
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aslafy-z/conventional-pr-title-action@v2.2.3
+        id: title-check
+        with:
+          success-state: Title follows the specification.
+          failure-state: Title does not follow the specification.
+          context-name: conventional-pr-title
+          preset: conventional-changelog-angular@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find Comment
+        if: always()
+        uses: peter-evans/find-comment@v1
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: Please make sure that your Pull Request title and body does conform to this format
+
+      - name: Create comment
+        if: always() && (steps.fc.outputs.comment-id == 0) && (steps.title-check.outputs.success == 'false')
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            We are following the [Conventional Commit Format](https://www.conventionalcommits.org/en/v1.0.0/). Please make sure that your Pull Request title and body does conform to this format, otherwise, it might not be released. Here is a short example:
+            ```
+            fix(webapp): correct styling in cool component
+            <type>[optional scope]: <description>
+            ```
+            These are the most used types: (you can find more [here](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type))
+            | Type | Meaning | Resulting Semantic Release
+            | :------------- |:-------------|:----:|
+            | `fix`       | patches a bug | PATCH (v1.0.0 -> v1.0.1)|
+            | `feat`    |  introduces a new feature | MINOR (v1.0.0 -> v1.1.0)|
+            | `chore` | other non releasing code changes | NONE (v1.0.0 -> v1.0.0|
+
+            In the Pull Request Body please describe what changes for the user of the application. If the user has to do Things different than before (excluding new functionality) please include `BREAKING CHANGE` at the end. This will trigger a major release (v1.0.0 -> v2.0.0)
+
+      - name: Delete comment
+        if: always() && (steps.fc.outputs.comment-id != 0) && (steps.title-check.outputs.success == 'true')
+        uses: actions/github-script@v3
+        with:
+          script: |
+            github.issues.deleteComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: ${{ steps.fc.outputs.comment-id }},
+            })
