@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/DanielHabenicht/MMM-json/compare/v1.1.3...v1.1.4) (2022-01-09)
+
+
+### Bug Fixes
+
+* **release:** fix releaserc ([1e79db4](https://github.com/DanielHabenicht/MMM-json/commit/1e79db40581f5cee33f1902443e62419a948510e))
+
 # 1.0.0 (2021-03-03)
 
 
