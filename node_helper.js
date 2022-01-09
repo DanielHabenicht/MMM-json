@@ -41,7 +41,7 @@ module.exports = NodeHelper.create({
     var self = this;
     console.log("Notification: " + notification + " Payload:", payload);
 
-    if (notification === "MMM_JSON_GET_REQUEST") {
+    if (notification === "MMM_JSON_REQUEST") {
       req_params = {
         url: payload.config.url,
         json: true,
@@ -82,9 +82,9 @@ module.exports = NodeHelper.create({
             };
           }
 
-          self.sendSocketNotification("MMM_JSON_GET_RESPONSE", responseObject);
+          self.sendSocketNotification("MMM_JSON_RESPONSE", responseObject);
         } else {
-          self.sendSocketNotification("MMM_JSON_GET_RESPONSE", {
+          self.sendSocketNotification("MMM_JSON_RESPONSE", {
             identifier: payload.identifier,
             error: true
           });
