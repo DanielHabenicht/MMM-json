@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/DanielHabenicht/MMM-json/compare/v2.1.0...v2.2.0) (2022-01-09)
+
+
+### Features
+
+* add multi value support ([e5af63a](https://github.com/DanielHabenicht/MMM-json/commit/e5af63add94112f4fc850dbe2d4a435b4df1ee54))
+
 # [2.1.0](https://github.com/DanielHabenicht/MMM-json/compare/v2.0.0...v2.1.0) (2022-01-09)
 
 
