@@ -33,7 +33,7 @@ Module.register("MMM-json", {
   getData: function () {
     Log.info("MMM-json: getting data");
 
-    this.sendSocketNotification("MMM_JSON_GET_REQUEST", {
+    this.sendSocketNotification("MMM_JSON_REQUEST", {
       config: this.config,
       identifier: this.identifier
     });
@@ -42,7 +42,7 @@ Module.register("MMM-json", {
   // Handle node helper response
   socketNotificationReceived: function (notification, payload) {
     if (
-      notification === "MMM_JSON_GET_RESPONSE" &&
+      notification === "MMM_JSON_RESPONSE" &&
       payload.identifier === this.identifier
     ) {
       if (payload.error === true) {
