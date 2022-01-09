@@ -1,7 +1,7 @@
 var request = require("request");
 var jp = require("jsonpath");
 const { jq } = require("jq.node");
-var NodeHelper = require("node_helper");
+var NodeHelper = require("./testing/node_helper");
 
 function asPromise(context, callbackFunction, ...args) {
   return new Promise((resolve, reject) => {
