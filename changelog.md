@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/DanielHabenicht/MMM-json/compare/v2.0.0...v2.1.0) (2022-01-09)
+
+
+### Bug Fixes
+
+* **test:** add more tests ([e300842](https://github.com/DanielHabenicht/MMM-json/commit/e3008427b4aec0dcb8ffb853f5bafb018a281bca))
+
+
+### Features
+
+* add style rules ([#10](https://github.com/DanielHabenicht/MMM-json/issues/10)) ([949ff92](https://github.com/DanielHabenicht/MMM-json/commit/949ff926b1a9dc2875c149c7f24e03fd9b966c98))
+
 # [2.0.0](https://github.com/DanielHabenicht/MMM-json/compare/v1.1.4...v2.0.0) (2022-01-09)
 
 
