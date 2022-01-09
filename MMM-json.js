@@ -119,13 +119,15 @@ Module.register("MMM-json", {
       titleTr.className = "small regular bright";
       dataTr.className = "small light bright";
 
-      for (var j = 0; j < this.config.styleRules.length; j++) {
-        if (this.config.styleRules[j].match(this.response[i].value)) {
-          if (this.config.styleRules[j].style != null) {
-            dataTr.style = this.config.styleRules[j].style;
-          }
-          if (this.config.styleRules[j].class != null) {
-            dataTr.className += " " + this.config.styleRules[j].class;
+      if (this.config.styleRules != null && this.config.styleRules.length > 0) {
+        for (var j = 0; j < this.config.styleRules.length; j++) {
+          if (this.config.styleRules[j].match(this.response[i].value)) {
+            if (this.config.styleRules[j].style != null) {
+              dataTr.style = this.config.styleRules[j].style;
+            }
+            if (this.config.styleRules[j].class != null) {
+              dataTr.className += " " + this.config.styleRules[j].class;
+            }
           }
         }
       }
