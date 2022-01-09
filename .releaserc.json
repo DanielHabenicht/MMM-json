@@ -1,37 +1,30 @@
 {
   "branches": ["main"],
-  "verifyConditions": [
-    "@semantic-release/changelog",
-    "@semantic-release/github"
-  ],
-  "verifyConfig": ["@semantic-release/github"],
-  "prepare": [
-    {
-      "path": "@semantic-release/changelog",
-      "changelogFile": "changelog.md"
-    }
-  ],
-  "publish": [
-    {
-      "path": "@semantic-release/github",
-      "assets": [
-        {
-          "path": "changelog.md",
-          "label": "Changelog"
-        }
-      ]
-    }
-  ],
-  "fail": ["@semantic-release/github"],
-  "success": ["@semantic-release/github"],
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "changelog.md"
+      }
+    ],
     [
       "@semantic-release/git",
       {
         "assets": ["changelog.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "changelog.md",
+            "label": "Changelog"
+          }
+        ]
       }
     ]
   ]
