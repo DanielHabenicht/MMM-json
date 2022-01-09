@@ -27,7 +27,13 @@ npm install
   module: 'MMM-json',
   position: 'bottom_left',
   config: {
-    url: "https://jsonplaceholder.typicode.com/users", // Path to your json api
+    url: "https://jsonplaceholder.typicode.com/users/1", // Path to your json api
+    styleRules: [ // Provide custom style rules for any value
+      {
+        match: (value) => value == 1,
+        style: "color: red;",
+        class: "large"
+      }
   }
 },
 ```
@@ -148,10 +154,17 @@ npm install
       </td>
     </tr>
     <tr>
-      <td><code>values</code></td>
-      <td>Custom Configuration of the values you want to display (see below)
+      <td><a href="#value-configuration"><code>values</code></a></td>
+      <td>Custom Configuration of the values you want to display (<a href="#value-configuration">see below</a>)
         <br><b>Type:</b> <code>array</code>
         <br><b>Default:</b> <code>[]</code> Which means it displays all first level attributes (or the first element of an array).
+      </td>
+    </tr>
+    <tr>
+      <td><a href="#stylerules-configuration"><code>styleRules</code></a></td>
+      <td>Custom Style Rules matching for applying styles to any value (<a href="#stylerules-configuration">see below</a>)
+        <br><b>Type:</b> <code>array</code>
+        <br><b>Default:</b> <code>[]</code> No style rules are applied.
       </td>
     </tr>
   </tbody>
@@ -197,6 +210,58 @@ npm install
     </tr>
   </tbody>
 </table>
+
+### styleRules Configuration
+
+<table width="100%">
+  <thead>
+    <tr>
+      <th>Value-Property</th>
+      <th width="100%">Description</th>
+    </tr>
+  <thead>
+  <tbody>
+    <tr>
+      <td><code>match</code></td>
+      <td>The matching rule determining if the style
+        <br><b>Type:</b> <code>function</code> (with the value as parameter and returning a boolean)
+        <br><b>Example:</b> <code>(value) => value > 10</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>style</code></td>
+      <td>The style that should be applied to the value element.
+        <br><b>Type:</b> <code>string</code>
+        <br><b>Example:</b> <code>color: ref</code>
+        <br><b>Default:</b> <code></code> (none)
+      </td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td>A string that will be appended to the class attribute of the value element.
+        <br><b>Type:</b> <code>string</code>
+        <br><b>Example:</b> <code>class-name</code>
+        <br><b>Default:</b> <code></code> (none)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+# Testing
+
+```
+echo '{
+   "test": {
+     "id": 1,
+     "title": "json-server",
+     "author": "typicode",
+     "test": ["test1", "test2"]
+   }
+ }
+' > db.json
+npm install -g json-server
+json-server --watch db.json
+```
 
 # Attribution
 
