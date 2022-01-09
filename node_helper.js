@@ -26,6 +26,7 @@ async function do_jq(filter, data) {
     try {
       data = await asPromise(null, jq, JSON.stringify(data), filter, {});
       data = JSON.parse(data);
+      console.debug("JQ Converted data: ", data);
     } catch (e) {
       console.error("Error handling jq.node filter '" + filter + "':", e);
     }
