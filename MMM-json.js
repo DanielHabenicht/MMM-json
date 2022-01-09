@@ -43,7 +43,7 @@ Module.register("MMM-json", {
   socketNotificationReceived: function (notification, payload) {
     if (
       notification === "MMM_JSON_GET_RESPONSE" &&
-      payload.identifier == this.identifier
+      payload.identifier === this.identifier
     ) {
       if (payload.error === true) {
         console.error(
