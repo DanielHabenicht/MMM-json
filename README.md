@@ -92,9 +92,9 @@ npm install
   header: "JSON example POST",
   config: {
     url: "https://jsonplaceholder.typicode.com/posts",
-    request: {
+    fetchOptions: {
       method: "POST",
-      json: {
+      body: {
         "search": "something"
       }
     }
@@ -134,8 +134,8 @@ npm install
       </td>
     </tr>
     <tr>
-      <td><code>request</code></td>
-      <td>Custom parameters for the <a href="https://www.npmjs.com/package/request">request</a> call. For example request method, request headers, request body.
+      <td><code>fetchOptions</code></td>
+      <td>Custom parameters for the <code><a href="https://github.com/node-fetch/node-fetch#fetch-options">fetch</a></code> call. For example <code>method</code>, <code>headers</code>, <code>body</code>.
         <br><b>Type:</b> <code>object</code>
         <br><b>Default:</b> <code>{}</code> No additional parameters.
       </td>
