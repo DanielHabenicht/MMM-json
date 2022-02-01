@@ -37,6 +37,7 @@ npm install
         style: "color: red;",
         class: "large"
       }
+    ]  
   }
 },
 ```
