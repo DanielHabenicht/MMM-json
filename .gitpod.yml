@@ -47,9 +47,9 @@ tasks:
             module: "MMM-json",
             position: "bottom_left",
             config: {
-              url: "https://jsonplaceholder.typicode.com/users",
+              url: " http://localhost:3000/test",
               headerIcon: "fa-cube",
-              jq: 'keyBy("name") | mapValues(a => [a.address.street,a.address.suite,a.address.city].join(", "))',
+              // jq: 'keyBy("name") | mapValues(a => [a.address.street,a.address.suite,a.address.city].join(", "))',
               // values: [
               // 	{
               // 		title: "Name",
