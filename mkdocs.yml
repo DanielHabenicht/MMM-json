@@ -21,6 +21,7 @@ theme:
 
 
 repo_url: https://github.com/DanielHabenicht/MMM-json
+edit_uri: edit/main/docs/
 
 
 nav:
