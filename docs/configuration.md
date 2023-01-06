@@ -22,7 +22,7 @@ Scroll through the [examples](./examples.md) first. Maybe you can just copy and 
     <tr>
       <td><code>refreshInterval</code></td>
       <td>The interval with which the url is queried and your values are updated.
-        <br><b>Type:</b> <code>int</code> (seconds)
+        <br><b>Type:</b> <code>int</code> (milliseconds)
         <br><b>Default:</b> <code>300000</code> => 5 minutes
       </td>
     </tr>
