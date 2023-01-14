@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/DanielHabenicht/MMM-json/compare/v2.2.0...v2.3.0) (2023-01-14)
+
+
+### Features
+
+* add option to add icon to any property ([f3d3257](https://github.com/DanielHabenicht/MMM-json/commit/f3d325746fdfb7550780bcda12a5ed195c1e415a))
+
 # [2.2.0](https://github.com/DanielHabenicht/MMM-json/compare/v2.1.0...v2.2.0) (2022-01-09)
 
 
