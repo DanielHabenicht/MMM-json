@@ -107,20 +107,23 @@ Module.register("MMM-json", {
     for (var i = 0; i < this.response.length; i++) {
       var row = document.createElement("tr");
 
+      var keyTd = document.createElement("td");
+	  keyTd.className = "small light bright";
+
       if (this.response[i].icon) {
         var icon = document.createElement("i");
-        icon.style = "vertical-align: middle;";
         icon.className = this.response[i].icon;
-        row.appendChild(icon);
+        keyTd.appendChild(icon);
       }
 
-      var titleTr = document.createElement("td");
+      var titleSpan = document.createElement("span");
       if (this.response[i].title) {
-        titleTr.className = "small regular bright";
-        titleTr.innerHTML =
+        titleSpan.className = "small regular bright";
+        titleSpan.innerHTML =
           (this.response[i].title ? this.response[i].title : "") + ":";
       }
-      row.appendChild(titleTr);
+      keyTd.appendChild(titleSpan);
+	  row.appendChild(keyTd);
 
       for (var j = 0; j < this.response[i].value.length; j++) {
         var dataTr = document.createElement("td");
