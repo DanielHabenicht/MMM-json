@@ -107,9 +107,19 @@ Module.register("MMM-json", {
     for (var i = 0; i < this.response.length; i++) {
       var row = document.createElement("tr");
 
+      if (this.response[i].icon) {
+        var icon = document.createElement("i");
+        icon.style = "vertical-align: middle;";
+        icon.className = this.response[i].icon;
+        row.appendChild(icon);
+      }
+
       var titleTr = document.createElement("td");
-      titleTr.className = "small regular bright";
-      titleTr.innerHTML = this.response[i].title + ":";
+      if (this.response[i].title) {
+        titleTr.className = "small regular bright";
+        titleTr.innerHTML =
+          (this.response[i].title ? this.response[i].title : "") + ":";
+      }
       row.appendChild(titleTr);
 
       for (var j = 0; j < this.response[i].value.length; j++) {

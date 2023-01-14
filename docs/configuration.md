@@ -2,7 +2,7 @@
 
 Scroll through the [examples](./examples.md) first. Maybe you can just copy and paste!
 
-## Overall 
+## Overall
 
 <table width="100%">
   <thead>
@@ -79,6 +79,13 @@ Scroll through the [examples](./examples.md) first. Maybe you can just copy and 
       <td>The Title of the Property displayed on the screen
         <br><b>Type:</b> <code>string</code>
         <br><b>Default:</b> The attribute name
+      </td>
+    </tr>
+    <tr>
+      <td><code>icon</code></td>
+      <td>The Icon of the Property displayed
+        <br><b>Type:</b> <code>string</code> <a href="https://fontawesome.com/icons?d=gallery">any FontAwesome Icon</a>
+        <br><b>Default:</b> (none)
       </td>
     </tr>
     <tr>

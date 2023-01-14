@@ -16,7 +16,7 @@
         style: "color: red;",
         class: "large"
       }
-    ]  
+    ]
   }
 },
 ```
@@ -108,6 +108,7 @@ With [JSONPath](https://restfulapi.net/json-jsonpath/) you can select the values
       },
       {
         title: "Geo",
+        icon: "fa-solid fa-map-pin small",
         query: ["$.address.geo.lat", "$.address.geo.lng"],
         suffix: ["LAT", "LNG"]
       }
